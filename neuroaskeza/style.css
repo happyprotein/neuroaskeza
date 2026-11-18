@@ -1,0 +1,682 @@
+/*
+Theme Name: Neuroaskeza
+Theme URI: https://neuroaskeza.example
+Author: Mladen Cimeša — Cimesa Lab
+Description: Православна тема — теологија и психологија у разговору. Једнострана насловна са динамичким текстовима и подкастом.
+Version: 1.0
+License: GNU General Public License v2 or later
+Text Domain: neuroaskeza
+*/
+
+
+:root{
+  --noc:#14110d;          /* ноћно бдење — основа */
+  --noc2:#1b1712;         /* топлија плоча */
+  --noc3:#241e16;         /* издигнута површина */
+  --zlato:#E8A317;        /* злато из логотипа */
+  --zlato-svetlo:#F2C14E; /* светлије злато */
+  --grimiz:#B01818;       /* литургијски гримиз */
+  --grimiz-svetao:#d23a2c;
+  --pergament:#EDE3CF;    /* основни текст */
+  --pepeo:#a3947a;        /* пригушен текст */
+  --linija:rgba(232,163,23,.18);
+  --serif:'Spectral','PT Serif',Georgia,serif;
+  --mono:'PT Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--noc);
+  color:var(--pergament);
+  font-family:var(--serif);
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+::selection{background:var(--grimiz);color:var(--pergament)}
+
+/* ----- позадинска текстура: тихи злaтни „кандило" сјај ----- */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% -5%, rgba(232,163,23,.07), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 15% 110%, rgba(176,24,24,.05), transparent 60%);
+  pointer-events:none;z-index:0;
+}
+main,header,footer{position:relative;z-index:1}
+
+/* ================= НАВИГАЦИЈА ================= */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem clamp(1.2rem,4vw,3rem);
+  background:linear-gradient(to bottom, rgba(20,17,13,.92), rgba(20,17,13,.75));
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s ease;
+}
+.nav.scrolled{border-bottom-color:var(--linija)}
+.nav-mark{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-mark img{height:42px;width:auto;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.nav-mark:hover img{transform:rotate(-6deg) scale(1.08)}
+.nav-mark span{
+  font-family:var(--serif);font-weight:600;font-size:1.05rem;letter-spacing:.14em;
+  color:var(--pergament);text-transform:uppercase;
+}
+.nav-mark span b{color:var(--zlato);font-weight:600}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);list-style:none}
+.nav-links a{
+  color:var(--pepeo);text-decoration:none;font-size:.92rem;letter-spacing:.08em;
+  position:relative;padding:.25rem 0;transition:color .3s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--zlato);transform:scaleX(0);transform-origin:right;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.nav-links a:hover{color:var(--pergament)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.4rem}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--zlato);margin:5px 0;transition:.3s}
+
+/* ================= ХЕРОЈ ================= */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+  padding:7rem clamp(1.2rem,4vw,3rem) 4rem;
+  position:relative;
+}
+/* нимб — златни круг иза логотипа, као ореол иконе */
+.hero-nimbus{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:2.5rem;
+}
+.hero-nimbus::before{
+  content:"";
+  position:absolute;
+  width:min(420px,72vw);height:min(420px,72vw);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,163,23,.13) 0%, rgba(232,163,23,.05) 45%, transparent 70%);
+  animation:nimbus 7s ease-in-out infinite;
+}
+.hero-nimbus::after{
+  content:"";
+  position:absolute;
+  width:min(340px,60vw);height:min(340px,60vw);
+  border-radius:50%;
+  border:1px solid rgba(232,163,23,.25);
+  animation:nimbusRing 7s ease-in-out infinite;
+}
+@keyframes nimbus{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+@keyframes nimbusRing{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.04);opacity:.9}}
+.hero-logo{
+  width:min(560px,86vw);height:auto;position:relative;z-index:2;
+  opacity:0;transform:translateY(24px);
+  animation:rise 1.2s .2s cubic-bezier(.2,.8,.2,1) forwards;
+  filter:drop-shadow(0 12px 40px rgba(0,0,0,.5));
+  transition:transform .6s cubic-bezier(.2,.8,.2,1), filter .6s;
+}
+.hero-logo:hover{
+  transform:translateY(-6px) scale(1.02);
+  filter:drop-shadow(0 18px 50px rgba(232,163,23,.25));
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.hero-tag{
+  font-size:clamp(1.15rem,2.4vw,1.5rem);
+  font-weight:300;font-style:italic;
+  color:var(--pepeo);
+  max-width:34em;
+  opacity:0;animation:rise 1.2s .55s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero-tag em{color:var(--zlato);font-style:italic}
+.hero-tag strong{color:var(--grimiz-svetao);font-weight:500}
+.hero-verse{
+  margin-top:2.2rem;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(163,148,122,.7);
+  opacity:0;animation:rise 1.2s .85s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  width:1px;height:56px;background:linear-gradient(to bottom, var(--zlato), transparent);
+  animation:drip 2.2s ease-in-out infinite;
+}
+@keyframes drip{0%{transform:translateX(-50%) scaleY(0);transform-origin:top}45%{transform:translateX(-50%) scaleY(1);transform-origin:top}55%{transform:translateX(-50%) scaleY(1);transform-origin:bottom}100%{transform:translateX(-50%) scaleY(0);transform-origin:bottom}}
+
+/* ================= СЕКЦИЈЕ ================= */
+section{padding:clamp(4rem,9vw,7.5rem) clamp(1.2rem,4vw,3rem)}
+.wrap{max-width:1180px;margin:0 auto}
+.eyebrow{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--zlato);margin-bottom:1.1rem;display:flex;align-items:center;gap:1rem;
+}
+.eyebrow::after{content:"";flex:0 0 56px;height:1px;background:var(--linija)}
+h2{
+  font-size:clamp(1.9rem,4.4vw,3rem);font-weight:500;line-height:1.18;
+  letter-spacing:-.01em;margin-bottom:1.4rem;
+}
+h2 .gold{color:var(--zlato)}
+h2 .crims{color:var(--grimiz-svetao)}
+.lede{font-size:clamp(1.05rem,1.7vw,1.2rem);color:var(--pepeo);max-width:46em}
+
+/* откривање при скролу */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+/* ================= О САЈТУ — две колоне сусрета ================= */
+.meet{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(1.5rem,4vw,3.5rem);
+  align-items:stretch;margin-top:3rem;
+}
+.meet-col{padding:1.5rem 0}
+.meet-col h3{
+  font-size:1.35rem;font-weight:600;margin-bottom:1rem;letter-spacing:.02em;
+}
+.meet-col.theo h3{color:var(--zlato)}
+.meet-col.psy h3{color:var(--grimiz-svetao)}
+.meet-col p{color:var(--pepeo);font-size:1rem}
+.meet-col ul{list-style:none;margin-top:1.2rem}
+.meet-col li{
+  padding:.55rem 0;border-bottom:1px solid rgba(237,227,207,.07);
+  font-size:.97rem;color:var(--pergament);
+  display:flex;gap:.7rem;align-items:baseline;
+  transition:padding-left .3s ease, color .3s;
+}
+.meet-col li::before{content:"·";color:var(--zlato);font-weight:700}
+.meet-col.psy li::before{color:var(--grimiz-svetao)}
+.meet-col li:hover{padding-left:.5rem}
+.meet-col li a{color:var(--zlato);text-decoration:none;transition:color .3s}
+.meet-col li a:hover{color:var(--zlato-svetlo)}
+.meet-col.psy li a{color:var(--zlato)}
+.meet-col.psy li a:hover{color:var(--zlato-svetlo)}
+.meet-axis{
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  justify-content:center;
+}
+.meet-axis .line{width:1px;flex:1;background:linear-gradient(to bottom,transparent,var(--linija),transparent)}
+.meet-axis .cross{
+  font-size:1.6rem;color:var(--zlato);
+  animation:pulseGold 4s ease-in-out infinite;
+}
+@keyframes pulseGold{0%,100%{opacity:.65;text-shadow:0 0 0 transparent}50%{opacity:1;text-shadow:0 0 24px rgba(232,163,23,.55)}}
+
+/* ================= ТЕМЕ / ЧЛАНЦИ ================= */
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:1.6rem;margin-top:3rem;
+}
+.card{
+  background:var(--noc2);
+  border:1px solid rgba(237,227,207,.08);
+  border-radius:4px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), border-color .5s, box-shadow .5s;
+}
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(232,163,23,.4);
+  box-shadow:0 24px 60px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(232,163,23,.12);
+}
+.card-img{
+  position:relative;aspect-ratio:16/9.5;overflow:hidden;
+  background:var(--noc3);
+}
+.card-img svg{
+  width:100%;height:100%;display:block;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1), filter .8s;
+}
+.card:hover .card-img svg{transform:scale(1.08);filter:saturate(1.25) brightness(1.1)}
+.card-img::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(20,17,13,.55), transparent 55%);
+  opacity:.9;transition:opacity .6s;
+}
+.card:hover .card-img::after{opacity:.4}
+/* златни одсјај који прелази преко слике на ховер */
+.card-img::before{
+  content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;
+  background:linear-gradient(105deg, transparent, rgba(242,193,78,.18), transparent);
+  transform:skewX(-18deg);z-index:2;transition:left .8s cubic-bezier(.2,.8,.2,1);
+}
+.card:hover .card-img::before{left:130%}
+.card-body{padding:1.5rem 1.5rem 1.7rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
+.card-cat{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--zlato);
+}
+.card-cat.red{color:var(--grimiz-svetao)}
+.card h3{font-size:1.28rem;font-weight:600;line-height:1.3;transition:color .3s}
+.card:hover h3{color:var(--zlato-svetlo)}
+.card p{font-size:.95rem;color:var(--pepeo);flex:1}
+.card-more{
+  font-size:.88rem;color:var(--pergament);letter-spacing:.06em;
+  display:inline-flex;align-items:center;gap:.5rem;margin-top:.4rem;
+}
+.card-more::after{content:"→";transition:transform .35s cubic-bezier(.2,.8,.2,1);color:var(--zlato)}
+.card:hover .card-more::after{transform:translateX(6px)}
+
+/* ================= ПОДКАСТ ================= */
+.podcast{
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(176,24,24,.10), transparent 65%),
+    var(--noc2);
+  border-top:1px solid var(--linija);
+  border-bottom:1px solid var(--linija);
+}
+.pod-grid{
+  display:grid;grid-template-columns:minmax(280px,1.05fr) 1.4fr;
+  gap:clamp(2rem,5vw,4.5rem);align-items:center;margin-top:1rem;
+}
+.pod-visual{position:relative;display:flex;justify-content:center;align-items:center;padding:2rem 0}
+.pod-disc{
+  width:min(300px,70vw);height:min(300px,70vw);border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #2b2218, var(--noc) 70%);
+  border:1px solid rgba(232,163,23,.35);
+  display:flex;justify-content:center;align-items:center;
+  position:relative;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .6s;
+  cursor:pointer;
+}
+.pod-disc:hover{transform:scale(1.04);box-shadow:0 0 80px rgba(232,163,23,.18)}
+.pod-disc img{width:62%;height:auto;animation:spinSlow 40s linear infinite}
+.pod-disc:hover img{animation-play-state:paused}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.pod-wave{
+  position:absolute;inset:-26px;border-radius:50%;
+  border:1px solid rgba(176,24,24,.35);
+  animation:wave 3.2s ease-out infinite;
+}
+.pod-wave.w2{animation-delay:1.05s}
+.pod-wave.w3{animation-delay:2.1s}
+@keyframes wave{0%{transform:scale(.86);opacity:0}25%{opacity:.7}100%{transform:scale(1.22);opacity:0}}
+.episodes{list-style:none;margin-top:2rem;display:flex;flex-direction:column}
+.ep{
+  display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;
+  padding:1.1rem .9rem;border-bottom:1px solid rgba(237,227,207,.08);
+  transition:background .35s, padding-left .35s;cursor:pointer;border-radius:3px;
+}
+.ep:hover{background:rgba(232,163,23,.05);padding-left:1.3rem}
+.ep-num{
+  font-family:var(--mono);font-size:.8rem;color:var(--grimiz-svetao);letter-spacing:.1em;
+}
+.ep-title{font-size:1.05rem;font-weight:500}
+.ep-title small{display:block;font-size:.84rem;color:var(--pepeo);font-weight:300;margin-top:.15rem}
+.ep-play{
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(232,163,23,.4);
+  display:flex;justify-content:center;align-items:center;
+  color:var(--zlato);font-size:.7rem;
+  transition:background .35s, transform .35s, color .35s;
+}
+.ep:hover .ep-play{background:var(--zlato);color:var(--noc);transform:scale(1.12)}
+.pod-platforms{margin-top:2rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.chip{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;
+  border:1px solid rgba(237,227,207,.18);border-radius:99px;
+  padding:.5rem 1.1rem;color:var(--pepeo);text-decoration:none;
+  transition:border-color .3s,color .3s, transform .3s;
+}
+.chip:hover{border-color:var(--zlato);color:var(--zlato-svetlo);transform:translateY(-2px)}
+
+/* ================= ЦИТАТ ================= */
+.quote{
+  text-align:center;max-width:880px;margin:0 auto;position:relative;
+}
+.quote::before{
+  content:"„";font-size:7rem;line-height:0;display:block;
+  color:rgba(232,163,23,.3);font-weight:700;margin-bottom:2.2rem;
+  font-family:Georgia,serif;
+}
+.quote blockquote{
+  font-size:clamp(1.35rem,3vw,2rem);font-weight:400;font-style:italic;line-height:1.5;
+}
+.quote cite{
+  display:block;margin-top:1.6rem;font-style:normal;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--zlato);
+}
+
+/* ================= ЦАРИНИК — смирење и покајање ================= */
+.carinik-wrap{
+  margin:4.5rem auto 0;text-align:center;max-width:420px;position:relative;
+}
+.carinik-wrap::before{
+  content:"";position:absolute;left:50%;top:42%;
+  width:130%;height:110%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse, rgba(232,163,23,.08), transparent 65%);
+  pointer-events:none;
+  animation:nimbus 7s ease-in-out infinite;
+}
+.carinik-img{
+  width:min(330px,76vw);height:auto;display:block;margin:0 auto;position:relative;
+  border-radius:3px;
+  transform-origin:50% 92%;
+  animation:carinikBow 8s ease-in-out infinite;
+  filter:drop-shadow(0 20px 44px rgba(0,0,0,.6));
+  transition:transform .7s cubic-bezier(.2,.8,.2,1), filter .7s;
+}
+.carinik-img:hover{
+  transform:scale(1.045);
+  filter:drop-shadow(0 26px 54px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(232,163,23,.3));
+}
+@keyframes carinikBow{
+  0%,100%{transform:rotate(0deg) translateY(0)}
+  50%{transform:rotate(-1.1deg) translateY(3px)}
+}
+.carinik-caption{
+  margin-top:1.5rem;position:relative;
+  font-style:italic;font-size:1.02rem;color:var(--pepeo);
+}
+
+/* ================= ПРЕТПЛАТА ================= */
+.subscribe-box{
+  margin-top:3rem;
+  background:linear-gradient(135deg, rgba(232,163,23,.07), rgba(176,24,24,.06));
+  border:1px solid var(--linija);border-radius:6px;
+  padding:clamp(1.8rem,4vw,3rem);
+  display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center;
+}
+.sub-form{display:flex;gap:.7rem}
+.sub-form input{
+  flex:1;background:var(--noc);border:1px solid rgba(237,227,207,.2);
+  border-radius:3px;padding:.85rem 1.1rem;color:var(--pergament);
+  font-family:var(--serif);font-size:.95rem;outline:none;transition:border-color .3s;
+}
+.sub-form input:focus{border-color:var(--zlato)}
+.btn{
+  background:var(--grimiz);color:#fff;border:none;border-radius:3px;
+  padding:.85rem 1.6rem;font-family:var(--serif);font-weight:600;font-size:.95rem;
+  letter-spacing:.04em;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s, box-shadow .3s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(176,24,24,.6)}
+.btn::after{
+  content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.25),transparent);
+  transform:skewX(-18deg);transition:left .6s;
+}
+.btn:hover::after{left:140%}
+
+/* ================= МОНАХ — молитвена сцена ================= */
+.hero-row{
+  display:grid;grid-template-columns:1.25fr .85fr;
+  gap:clamp(2.5rem,7vw,6.5rem);
+  align-items:center;width:100%;max-width:1240px;
+}
+.hero-left{display:flex;flex-direction:column;align-items:center;text-align:center}
+.monk-scene{
+  position:relative;
+  display:flex;justify-content:center;
+  opacity:0;animation:rise 1.2s .75s cubic-bezier(.2,.8,.2,1) forwards;
+  padding-top:4.5rem; /* простор за облачиће */
+}
+.monk-frame{
+  position:relative;
+  width:min(320px,78vw);
+  border:1px solid rgba(232,163,23,.45);
+  outline:1px solid rgba(232,163,23,.18);
+  outline-offset:7px;
+  border-radius:2px;
+  box-shadow:0 24px 70px -18px rgba(0,0,0,.75), inset 0 0 0 6px rgba(20,17,13,.18);
+  background:#c9b292;
+  transform-origin:50% 100%;
+  animation:monkSway 6.5s ease-in-out infinite;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
+}
+.monk-frame:hover{box-shadow:0 30px 90px -16px rgba(0,0,0,.85), 0 0 50px rgba(232,163,23,.18)}
+@keyframes monkSway{
+  0%,100%{transform:rotate(0deg)}
+  30%{transform:rotate(.7deg)}
+  70%{transform:rotate(-.7deg)}
+}
+.monk-frame img.monk-base{width:100%;height:auto;display:block;border-radius:1px}
+.monk-rope{
+  position:absolute;
+  /* исјечак основне слике 300x300: x160..205, y165..273 */
+  left:53.333%;top:55%;
+  width:15%;height:auto;
+  transform-origin:50% 2%;
+  animation:ropeSwing 3.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes ropeSwing{
+  0%,100%{transform:rotate(-1.8deg)}
+  50%{transform:rotate(1.8deg)}
+}
+/* облачићи молитве */
+.pray-bubbles{position:absolute;left:50%;top:0;width:0;height:0;pointer-events:none}
+.bubble{
+  position:absolute;
+  background:var(--pergament);
+  color:#241a10;
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  border-radius:18px;
+  padding:.55rem .95rem;
+  font-size:.86rem;line-height:1.35;
+  white-space:nowrap;
+  opacity:0;
+  box-shadow:0 8px 26px -8px rgba(0,0,0,.6);
+}
+.bubble.main{
+  left:-78px;top:-6px;
+  animation:bubbleMain 7s ease-in-out infinite;
+}
+.bubble.main::after{
+  content:"";position:absolute;bottom:-7px;left:38px;
+  width:14px;height:14px;background:inherit;
+  transform:rotate(45deg);border-radius:2px;
+}
+.bdot{
+  position:absolute;background:var(--pergament);border-radius:50%;
+  opacity:0;box-shadow:0 4px 12px -3px rgba(0,0,0,.5);
+}
+.bdot.d1{width:7px;height:7px;left:-26px;top:52px;animation:bdot 7s ease-in-out infinite}
+.bdot.d2{width:11px;height:11px;left:-40px;top:36px;animation:bdot 7s .25s ease-in-out infinite}
+.bdot.d3{width:15px;height:15px;left:-58px;top:18px;animation:bdot 7s .5s ease-in-out infinite}
+@keyframes bdot{
+  0%,8%{opacity:0;transform:scale(.4)}
+  14%,60%{opacity:1;transform:scale(1)}
+  72%,100%{opacity:0;transform:scale(.6)}
+}
+@keyframes bubbleMain{
+  0%,16%{opacity:0;transform:translateY(10px) scale(.92)}
+  26%,62%{opacity:1;transform:translateY(0) scale(1)}
+  76%,100%{opacity:0;transform:translateY(-14px) scale(.96)}
+}
+.monk-caption{
+  margin-top:1.1rem;text-align:center;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(163,148,122,.65);
+}
+
+/* ================= МОДАЛ — читање текста ================= */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  display:flex;justify-content:center;align-items:flex-start;
+  padding:clamp(.8rem,3vw,3rem);
+  background:rgba(10,8,6,.82);
+  backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+  overflow-y:auto;
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-panel{
+  background:var(--noc2);
+  border:1px solid rgba(232,163,23,.3);
+  border-radius:6px;
+  max-width:760px;width:100%;
+  margin:auto 0;
+  padding:clamp(1.6rem,5vw,3.5rem);
+  position:relative;
+  transform:translateY(26px) scale(.98);
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 40px 120px -30px rgba(0,0,0,.9);
+}
+.modal.open .modal-panel{transform:none}
+.modal-close{
+  position:sticky;top:0;float:right;margin:-.6rem -.6rem 0 1rem;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--noc3);border:1px solid rgba(232,163,23,.35);
+  color:var(--zlato);font-size:1.1rem;cursor:pointer;
+  transition:background .3s,transform .3s;
+  z-index:5;
+}
+.modal-close:hover{background:var(--grimiz);color:#fff;transform:rotate(90deg)}
+.art-cat{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--zlato);display:block;margin-bottom:1rem;
+}
+.modal-panel h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin-bottom:1.6rem}
+.art-body{font-size:1.04rem;line-height:1.85;color:#d9cfba}
+.art-body p{margin-bottom:1.25rem}
+.art-body p:first-of-type::first-letter{
+  font-size:3.4em;float:left;line-height:.85;
+  padding:.06em .12em 0 0;color:var(--grimiz-svetao);font-weight:600;
+}
+.art-body h4{
+  font-size:1.15rem;font-weight:600;color:var(--zlato-svetlo);
+  margin:2rem 0 .9rem;letter-spacing:.02em;
+}
+.art-body em{color:var(--pergament)}
+.art-body .vinjeta{
+  text-align:center;color:var(--zlato);letter-spacing:.6em;
+  margin:2rem 0;font-size:.9rem;
+}
+.badge{
+  display:inline-block;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  background:var(--grimiz);color:#fff;border-radius:2px;
+  padding:.22rem .55rem;margin-left:.6rem;vertical-align:middle;
+}
+
+/* ================= БЛАГОСЛОВ — десница из облака ================= */
+.blagoslov{
+  padding-top:1rem;padding-bottom:4.5rem;
+  display:flex;justify-content:center;text-align:center;
+}
+.hand-wrap{position:relative;display:inline-block}
+.hand-wrap::before{
+  content:"";position:absolute;left:50%;top:46%;
+  width:120%;height:120%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse, rgba(232,163,23,.10), transparent 65%);
+  pointer-events:none;
+  animation:nimbus 6s ease-in-out infinite;
+}
+.hand-img{
+  width:min(380px,80vw);height:auto;display:block;position:relative;
+  animation:handFloat 7s ease-in-out infinite;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1), filter .7s;
+  filter:drop-shadow(0 18px 40px rgba(0,0,0,.55));
+}
+.hand-img:hover{
+  transform:translateY(-8px) scale(1.04);
+  filter:drop-shadow(0 24px 50px rgba(0,0,0,.6)) drop-shadow(0 0 34px rgba(232,163,23,.35));
+}
+@keyframes handFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-9px) rotate(-.6deg)}
+}
+.hand-caption{
+  margin-top:1.4rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(163,148,122,.65);
+}
+
+/* ================= ПОДНОЖЈЕ ================= */
+footer{
+  border-top:1px solid var(--linija);
+  padding:3rem clamp(1.2rem,4vw,3rem) 2.2rem;
+  display:flex;flex-direction:column;align-items:center;gap:1.4rem;text-align:center;
+}
+footer img{height:54px;opacity:.9;transition:transform .5s, opacity .5s}
+footer img:hover{transform:scale(1.1) rotate(4deg);opacity:1}
+footer p{font-size:.85rem;color:var(--pepeo)}
+footer .ps{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(163,148,122,.55)}
+
+/* ================= МОБИЛНО ================= */
+@media (max-width:880px){
+  .hero-row{grid-template-columns:1fr;gap:3.5rem}
+  .monk-scene{padding-top:4rem}
+  .bubble.main{left:-130px}
+  .nav-links{
+    position:fixed;top:0;right:0;height:100vh;width:min(76vw,320px);
+    background:var(--noc2);flex-direction:column;padding:6rem 2.2rem;
+    transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+    border-left:1px solid var(--linija);gap:1.6rem;
+  }
+  .nav-links.open{transform:none}
+  .nav-toggle{display:block;z-index:110}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle.open span:nth-child(2){opacity:0}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .meet{grid-template-columns:1fr}
+  .meet-axis{flex-direction:row;width:100%}
+  .meet-axis .line{height:1px;width:auto;flex:1;background:linear-gradient(to right,transparent,var(--linija),transparent)}
+  .pod-grid{grid-template-columns:1fr}
+  .subscribe-box{grid-template-columns:1fr}
+  .sub-form{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+
+
+/* ================= WP додаци ================= */
+.card-img img.wp-post-image{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1), filter .8s;
+}
+.card:hover .card-img img.wp-post-image{transform:scale(1.08);filter:saturate(1.15) brightness(1.08)}
+
+/* —— страница текста (single) —— */
+.single-art{
+  max-width:780px;margin:0 auto;
+  padding:8.5rem clamp(1.2rem,4vw,2rem) 5rem;
+}
+.single-art .art-meta{
+  font-family:var(--mono);font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--pepeo);margin-bottom:2.2rem;display:flex;gap:1.2rem;flex-wrap:wrap;
+}
+.single-art h1{
+  font-size:clamp(1.9rem,4.5vw,2.9rem);font-weight:500;line-height:1.2;margin-bottom:1.2rem;
+}
+.single-art .art-body{margin-top:1.5rem}
+.art-body img{max-width:100%;height:auto;border-radius:4px;border:1px solid var(--linija)}
+.art-body iframe, .art-body .wp-block-embed iframe{
+  width:100%;aspect-ratio:16/9;height:auto;border:0;border-radius:4px;
+}
+.art-body .wp-block-embed{margin:1.8rem 0}
+.art-body blockquote{
+  border-left:2px solid var(--zlato);padding:.4rem 0 .4rem 1.4rem;margin:1.8rem 0;
+  font-style:italic;color:var(--pergament);
+}
+.art-body h2,.art-body h3{
+  font-size:1.25rem;font-weight:600;color:var(--zlato-svetlo);
+  margin:2rem 0 .9rem;letter-spacing:.02em;
+}
+.art-body ul,.art-body ol{margin:0 0 1.25rem 1.4rem}
+.art-body li{margin-bottom:.4rem}
+.art-back{
+  display:inline-flex;align-items:center;gap:.5rem;margin-top:3rem;
+  color:var(--zlato);text-decoration:none;font-size:.95rem;letter-spacing:.04em;
+  border-bottom:1px solid transparent;transition:border-color .3s;
+}
+.art-back:hover{border-bottom-color:var(--zlato)}
+.art-back::before{content:"←";transition:transform .35s}
+.art-back:hover::before{transform:translateX(-5px)}
+.single-thumb{
+  margin:0 0 2.2rem;border-radius:4px;overflow:hidden;border:1px solid var(--linija);
+}
+.single-thumb img{width:100%;height:auto;display:block}
+.pod-empty{
+  margin-top:2rem;color:var(--pepeo);font-style:italic;border:1px dashed rgba(232,163,23,.3);
+  border-radius:4px;padding:1.4rem 1.6rem;font-size:.95rem;
+}
