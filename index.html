@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Неуроаскеза — Православна теологија и психологија</title>
+<meta name="description" content="Неуроаскеза — простор сусрета православне теологије, психологије и савремене науке о уму.">
+<link rel="icon" type="image/png" href="images/znak.png">
+<meta property="og:title" content="Неуроаскеза — Православна теологија и психологија">
+<meta property="og:description" content="Простор сусрета православне теологије, психологије и савремене науке о уму. Текстови и подкаст.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="images/logo.png">
+<meta name="theme-color" content="#14110d">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=PT+Mono&display=swap&subset=cyrillic" rel="stylesheet">
+<style>
+:root{
+  --noc:#14110d;          /* ноћно бдење — основа */
+  --noc2:#1b1712;         /* топлија плоча */
+  --noc3:#241e16;         /* издигнута површина */
+  --zlato:#E8A317;        /* злато из логотипа */
+  --zlato-svetlo:#F2C14E; /* светлије злато */
+  --grimiz:#B01818;       /* литургијски гримиз */
+  --grimiz-svetao:#d23a2c;
+  --pergament:#EDE3CF;    /* основни текст */
+  --pepeo:#a3947a;        /* пригушен текст */
+  --linija:rgba(232,163,23,.18);
+  --serif:'Spectral','PT Serif',Georgia,serif;
+  --mono:'PT Mono',ui-monospace,monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--noc);
+  color:var(--pergament);
+  font-family:var(--serif);
+  font-weight:300;
+  line-height:1.7;
+  overflow-x:hidden;
+}
+::selection{background:var(--grimiz);color:var(--pergament)}
+
+/* ----- позадинска текстура: тихи злaтни „кандило" сјај ----- */
+body::before{
+  content:"";
+  position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 70% -5%, rgba(232,163,23,.07), transparent 60%),
+    radial-gradient(ellipse 50% 35% at 15% 110%, rgba(176,24,24,.05), transparent 60%);
+  pointer-events:none;z-index:0;
+}
+main,header,footer{position:relative;z-index:1}
+
+/* ================= НАВИГАЦИЈА ================= */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem clamp(1.2rem,4vw,3rem);
+  background:linear-gradient(to bottom, rgba(20,17,13,.92), rgba(20,17,13,.75));
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid transparent;
+  transition:border-color .4s ease;
+}
+.nav.scrolled{border-bottom-color:var(--linija)}
+.nav-mark{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nav-mark img{height:42px;width:auto;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.nav-mark:hover img{transform:rotate(-6deg) scale(1.08)}
+.nav-mark span{
+  font-family:var(--serif);font-weight:600;font-size:1.05rem;letter-spacing:.14em;
+  color:var(--pergament);text-transform:uppercase;
+}
+.nav-mark span b{color:var(--zlato);font-weight:600}
+.nav-links{display:flex;gap:clamp(1rem,2.5vw,2.2rem);list-style:none}
+.nav-links a{
+  color:var(--pepeo);text-decoration:none;font-size:.92rem;letter-spacing:.08em;
+  position:relative;padding:.25rem 0;transition:color .3s;
+}
+.nav-links a::after{
+  content:"";position:absolute;left:0;bottom:0;width:100%;height:1px;
+  background:var(--zlato);transform:scaleX(0);transform-origin:right;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1);
+}
+.nav-links a:hover{color:var(--pergament)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:.4rem}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--zlato);margin:5px 0;transition:.3s}
+
+/* ================= ХЕРОЈ ================= */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;
+  padding:7rem clamp(1.2rem,4vw,3rem) 4rem;
+  position:relative;
+}
+/* нимб — златни круг иза логотипа, као ореол иконе */
+.hero-nimbus{
+  position:relative;
+  display:flex;justify-content:center;align-items:center;
+  margin-bottom:2.5rem;
+}
+.hero-nimbus::before{
+  content:"";
+  position:absolute;
+  width:min(420px,72vw);height:min(420px,72vw);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(232,163,23,.13) 0%, rgba(232,163,23,.05) 45%, transparent 70%);
+  animation:nimbus 7s ease-in-out infinite;
+}
+.hero-nimbus::after{
+  content:"";
+  position:absolute;
+  width:min(340px,60vw);height:min(340px,60vw);
+  border-radius:50%;
+  border:1px solid rgba(232,163,23,.25);
+  animation:nimbusRing 7s ease-in-out infinite;
+}
+@keyframes nimbus{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.06);opacity:1}}
+@keyframes nimbusRing{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.04);opacity:.9}}
+.hero-logo{
+  width:min(560px,86vw);height:auto;position:relative;z-index:2;
+  opacity:0;transform:translateY(24px);
+  animation:rise 1.2s .2s cubic-bezier(.2,.8,.2,1) forwards;
+  filter:drop-shadow(0 12px 40px rgba(0,0,0,.5));
+  transition:transform .6s cubic-bezier(.2,.8,.2,1), filter .6s;
+}
+.hero-logo:hover{
+  transform:translateY(-6px) scale(1.02);
+  filter:drop-shadow(0 18px 50px rgba(232,163,23,.25));
+}
+@keyframes rise{to{opacity:1;transform:translateY(0)}}
+.hero-tag{
+  font-size:clamp(1.15rem,2.4vw,1.5rem);
+  font-weight:300;font-style:italic;
+  color:var(--pepeo);
+  max-width:34em;
+  opacity:0;animation:rise 1.2s .55s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero-tag em{color:var(--zlato);font-style:italic}
+.hero-tag strong{color:var(--grimiz-svetao);font-weight:500}
+.hero-verse{
+  margin-top:2.2rem;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(163,148,122,.7);
+  opacity:0;animation:rise 1.2s .85s cubic-bezier(.2,.8,.2,1) forwards;
+}
+.hero-scroll{
+  position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+  width:1px;height:56px;background:linear-gradient(to bottom, var(--zlato), transparent);
+  animation:drip 2.2s ease-in-out infinite;
+}
+@keyframes drip{0%{transform:translateX(-50%) scaleY(0);transform-origin:top}45%{transform:translateX(-50%) scaleY(1);transform-origin:top}55%{transform:translateX(-50%) scaleY(1);transform-origin:bottom}100%{transform:translateX(-50%) scaleY(0);transform-origin:bottom}}
+
+/* ================= СЕКЦИЈЕ ================= */
+section{padding:clamp(4rem,9vw,7.5rem) clamp(1.2rem,4vw,3rem)}
+.wrap{max-width:1180px;margin:0 auto}
+.eyebrow{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--zlato);margin-bottom:1.1rem;display:flex;align-items:center;gap:1rem;
+}
+.eyebrow::after{content:"";flex:0 0 56px;height:1px;background:var(--linija)}
+h2{
+  font-size:clamp(1.9rem,4.4vw,3rem);font-weight:500;line-height:1.18;
+  letter-spacing:-.01em;margin-bottom:1.4rem;
+}
+h2 .gold{color:var(--zlato)}
+h2 .crims{color:var(--grimiz-svetao)}
+.lede{font-size:clamp(1.05rem,1.7vw,1.2rem);color:var(--pepeo);max-width:46em}
+
+/* откривање при скролу */
+.reveal{opacity:0;transform:translateY(34px);transition:opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1)}
+.reveal.on{opacity:1;transform:none}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+/* ================= О САЈТУ — две колоне сусрета ================= */
+.meet{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(1.5rem,4vw,3.5rem);
+  align-items:stretch;margin-top:3rem;
+}
+.meet-col{padding:1.5rem 0}
+.meet-col h3{
+  font-size:1.35rem;font-weight:600;margin-bottom:1rem;letter-spacing:.02em;
+}
+.meet-col.theo h3{color:var(--zlato)}
+.meet-col.psy h3{color:var(--grimiz-svetao)}
+.meet-col p{color:var(--pepeo);font-size:1rem}
+.meet-col ul{list-style:none;margin-top:1.2rem}
+.meet-col li{
+  padding:.55rem 0;border-bottom:1px solid rgba(237,227,207,.07);
+  font-size:.97rem;color:var(--pergament);
+  display:flex;gap:.7rem;align-items:baseline;
+  transition:padding-left .3s ease, color .3s;
+}
+.meet-col li::before{content:"·";color:var(--zlato);font-weight:700}
+.meet-col.psy li::before{color:var(--grimiz-svetao)}
+.meet-col li:hover{padding-left:.5rem;color:#fff}
+.meet-axis{
+  display:flex;flex-direction:column;align-items:center;gap:.8rem;
+  justify-content:center;
+}
+.meet-axis .line{width:1px;flex:1;background:linear-gradient(to bottom,transparent,var(--linija),transparent)}
+.meet-axis .cross{
+  font-size:1.6rem;color:var(--zlato);
+  animation:pulseGold 4s ease-in-out infinite;
+}
+@keyframes pulseGold{0%,100%{opacity:.65;text-shadow:0 0 0 transparent}50%{opacity:1;text-shadow:0 0 24px rgba(232,163,23,.55)}}
+
+/* ================= ТЕМЕ / ЧЛАНЦИ ================= */
+.cards{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));
+  gap:1.6rem;margin-top:3rem;
+}
+.card{
+  background:var(--noc2);
+  border:1px solid rgba(237,227,207,.08);
+  border-radius:4px;
+  overflow:hidden;
+  text-decoration:none;color:inherit;
+  display:flex;flex-direction:column;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), border-color .5s, box-shadow .5s;
+}
+.card:hover{
+  transform:translateY(-8px);
+  border-color:rgba(232,163,23,.4);
+  box-shadow:0 24px 60px -20px rgba(0,0,0,.7), 0 0 0 1px rgba(232,163,23,.12);
+}
+.card-img{
+  position:relative;aspect-ratio:16/9.5;overflow:hidden;
+  background:var(--noc3);
+}
+.card-img svg{
+  width:100%;height:100%;display:block;
+  transition:transform .8s cubic-bezier(.2,.8,.2,1), filter .8s;
+}
+.card:hover .card-img svg{transform:scale(1.08);filter:saturate(1.25) brightness(1.1)}
+.card-img::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(to top, rgba(20,17,13,.55), transparent 55%);
+  opacity:.9;transition:opacity .6s;
+}
+.card:hover .card-img::after{opacity:.4}
+/* златни одсјај који прелази преко слике на ховер */
+.card-img::before{
+  content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;
+  background:linear-gradient(105deg, transparent, rgba(242,193,78,.18), transparent);
+  transform:skewX(-18deg);z-index:2;transition:left .8s cubic-bezier(.2,.8,.2,1);
+}
+.card:hover .card-img::before{left:130%}
+.card-body{padding:1.5rem 1.5rem 1.7rem;display:flex;flex-direction:column;gap:.7rem;flex:1}
+.card-cat{
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--zlato);
+}
+.card-cat.red{color:var(--grimiz-svetao)}
+.card h3{font-size:1.28rem;font-weight:600;line-height:1.3;transition:color .3s}
+.card:hover h3{color:var(--zlato-svetlo)}
+.card p{font-size:.95rem;color:var(--pepeo);flex:1}
+.card-more{
+  font-size:.88rem;color:var(--pergament);letter-spacing:.06em;
+  display:inline-flex;align-items:center;gap:.5rem;margin-top:.4rem;
+}
+.card-more::after{content:"→";transition:transform .35s cubic-bezier(.2,.8,.2,1);color:var(--zlato)}
+.card:hover .card-more::after{transform:translateX(6px)}
+
+/* ================= ПОДКАСТ ================= */
+.podcast{
+  background:
+    radial-gradient(ellipse 70% 90% at 50% 0%, rgba(176,24,24,.10), transparent 65%),
+    var(--noc2);
+  border-top:1px solid var(--linija);
+  border-bottom:1px solid var(--linija);
+}
+.pod-grid{
+  display:grid;grid-template-columns:minmax(280px,1.05fr) 1.4fr;
+  gap:clamp(2rem,5vw,4.5rem);align-items:center;margin-top:1rem;
+}
+.pod-visual{position:relative;display:flex;justify-content:center;align-items:center;padding:2rem 0}
+.pod-disc{
+  width:min(300px,70vw);height:min(300px,70vw);border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, #2b2218, var(--noc) 70%);
+  border:1px solid rgba(232,163,23,.35);
+  display:flex;justify-content:center;align-items:center;
+  position:relative;
+  transition:transform .6s cubic-bezier(.2,.8,.2,1), box-shadow .6s;
+  cursor:pointer;
+}
+.pod-disc:hover{transform:scale(1.04);box-shadow:0 0 80px rgba(232,163,23,.18)}
+.pod-disc img{width:62%;height:auto;animation:spinSlow 40s linear infinite}
+.pod-disc:hover img{animation-play-state:paused}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.pod-wave{
+  position:absolute;inset:-26px;border-radius:50%;
+  border:1px solid rgba(176,24,24,.35);
+  animation:wave 3.2s ease-out infinite;
+}
+.pod-wave.w2{animation-delay:1.05s}
+.pod-wave.w3{animation-delay:2.1s}
+@keyframes wave{0%{transform:scale(.86);opacity:0}25%{opacity:.7}100%{transform:scale(1.22);opacity:0}}
+.episodes{list-style:none;margin-top:2rem;display:flex;flex-direction:column}
+.ep{
+  display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:center;
+  padding:1.1rem .9rem;border-bottom:1px solid rgba(237,227,207,.08);
+  transition:background .35s, padding-left .35s;cursor:pointer;border-radius:3px;
+}
+.ep:hover{background:rgba(232,163,23,.05);padding-left:1.3rem}
+.ep-num{
+  font-family:var(--mono);font-size:.8rem;color:var(--grimiz-svetao);letter-spacing:.1em;
+}
+.ep-title{font-size:1.05rem;font-weight:500}
+.ep-title small{display:block;font-size:.84rem;color:var(--pepeo);font-weight:300;margin-top:.15rem}
+.ep-play{
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(232,163,23,.4);
+  display:flex;justify-content:center;align-items:center;
+  color:var(--zlato);font-size:.7rem;
+  transition:background .35s, transform .35s, color .35s;
+}
+.ep:hover .ep-play{background:var(--zlato);color:var(--noc);transform:scale(1.12)}
+.pod-platforms{margin-top:2rem;display:flex;gap:.9rem;flex-wrap:wrap}
+.chip{
+  font-family:var(--mono);font-size:.74rem;letter-spacing:.12em;
+  border:1px solid rgba(237,227,207,.18);border-radius:99px;
+  padding:.5rem 1.1rem;color:var(--pepeo);text-decoration:none;
+  transition:border-color .3s,color .3s, transform .3s;
+}
+.chip:hover{border-color:var(--zlato);color:var(--zlato-svetlo);transform:translateY(-2px)}
+
+/* ================= ЦИТАТ ================= */
+.quote{
+  text-align:center;max-width:880px;margin:0 auto;position:relative;
+}
+.quote::before{
+  content:"„";font-size:7rem;line-height:0;display:block;
+  color:rgba(232,163,23,.3);font-weight:700;margin-bottom:2.2rem;
+  font-family:Georgia,serif;
+}
+.quote blockquote{
+  font-size:clamp(1.35rem,3vw,2rem);font-weight:400;font-style:italic;line-height:1.5;
+}
+.quote cite{
+  display:block;margin-top:1.6rem;font-style:normal;
+  font-family:var(--mono);font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--zlato);
+}
+
+/* ================= ЦАРИНИК — смирење и покајање ================= */
+.carinik-wrap{
+  margin:4.5rem auto 0;text-align:center;max-width:420px;position:relative;
+}
+.carinik-wrap::before{
+  content:"";position:absolute;left:50%;top:42%;
+  width:130%;height:110%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse, rgba(232,163,23,.08), transparent 65%);
+  pointer-events:none;
+  animation:nimbus 7s ease-in-out infinite;
+}
+.carinik-img{
+  width:min(330px,76vw);height:auto;display:block;margin:0 auto;position:relative;
+  border-radius:3px;
+  transform-origin:50% 92%;
+  animation:carinikBow 8s ease-in-out infinite;
+  filter:drop-shadow(0 20px 44px rgba(0,0,0,.6));
+  transition:transform .7s cubic-bezier(.2,.8,.2,1), filter .7s;
+}
+.carinik-img:hover{
+  transform:scale(1.045);
+  filter:drop-shadow(0 26px 54px rgba(0,0,0,.65)) drop-shadow(0 0 36px rgba(232,163,23,.3));
+}
+@keyframes carinikBow{
+  0%,100%{transform:rotate(0deg) translateY(0)}
+  50%{transform:rotate(-1.1deg) translateY(3px)}
+}
+.carinik-caption{
+  margin-top:1.5rem;position:relative;
+  font-style:italic;font-size:1.02rem;color:var(--pepeo);
+}
+
+/* ================= ПРЕТПЛАТА ================= */
+.subscribe-box{
+  margin-top:3rem;
+  background:linear-gradient(135deg, rgba(232,163,23,.07), rgba(176,24,24,.06));
+  border:1px solid var(--linija);border-radius:6px;
+  padding:clamp(1.8rem,4vw,3rem);
+  display:grid;grid-template-columns:1.3fr 1fr;gap:2rem;align-items:center;
+}
+.sub-form{display:flex;gap:.7rem}
+.sub-form input{
+  flex:1;background:var(--noc);border:1px solid rgba(237,227,207,.2);
+  border-radius:3px;padding:.85rem 1.1rem;color:var(--pergament);
+  font-family:var(--serif);font-size:.95rem;outline:none;transition:border-color .3s;
+}
+.sub-form input:focus{border-color:var(--zlato)}
+.btn{
+  background:var(--grimiz);color:#fff;border:none;border-radius:3px;
+  padding:.85rem 1.6rem;font-family:var(--serif);font-weight:600;font-size:.95rem;
+  letter-spacing:.04em;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .3s, box-shadow .3s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -8px rgba(176,24,24,.6)}
+.btn::after{
+  content:"";position:absolute;top:0;left:-70%;width:40%;height:100%;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.25),transparent);
+  transform:skewX(-18deg);transition:left .6s;
+}
+.btn:hover::after{left:140%}
+
+/* ================= МОНАХ — молитвена сцена ================= */
+.hero-row{
+  display:grid;grid-template-columns:1.25fr .85fr;
+  gap:clamp(2.5rem,7vw,6.5rem);
+  align-items:center;width:100%;max-width:1240px;
+}
+.hero-left{display:flex;flex-direction:column;align-items:center;text-align:center}
+.monk-scene{
+  position:relative;
+  display:flex;justify-content:center;
+  opacity:0;animation:rise 1.2s .75s cubic-bezier(.2,.8,.2,1) forwards;
+  padding-top:4.5rem; /* простор за облачиће */
+}
+.monk-frame{
+  position:relative;
+  width:min(320px,78vw);
+  border:1px solid rgba(232,163,23,.45);
+  outline:1px solid rgba(232,163,23,.18);
+  outline-offset:7px;
+  border-radius:2px;
+  box-shadow:0 24px 70px -18px rgba(0,0,0,.75), inset 0 0 0 6px rgba(20,17,13,.18);
+  background:#c9b292;
+  transform-origin:50% 100%;
+  animation:monkSway 6.5s ease-in-out infinite;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1), box-shadow .5s;
+}
+.monk-frame:hover{box-shadow:0 30px 90px -16px rgba(0,0,0,.85), 0 0 50px rgba(232,163,23,.18)}
+@keyframes monkSway{
+  0%,100%{transform:rotate(0deg)}
+  30%{transform:rotate(.7deg)}
+  70%{transform:rotate(-.7deg)}
+}
+.monk-frame img.monk-base{width:100%;height:auto;display:block;border-radius:1px}
+.monk-rope{
+  position:absolute;
+  /* исјечак основне слике 300x300: x160..205, y165..273 */
+  left:53.333%;top:55%;
+  width:15%;height:auto;
+  transform-origin:50% 2%;
+  animation:ropeSwing 3.4s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes ropeSwing{
+  0%,100%{transform:rotate(-1.8deg)}
+  50%{transform:rotate(1.8deg)}
+}
+/* облачићи молитве */
+.pray-bubbles{position:absolute;left:50%;top:0;width:0;height:0;pointer-events:none}
+.bubble{
+  position:absolute;
+  background:var(--pergament);
+  color:#241a10;
+  font-family:var(--serif);font-weight:500;font-style:italic;
+  border-radius:18px;
+  padding:.55rem .95rem;
+  font-size:.86rem;line-height:1.35;
+  white-space:nowrap;
+  opacity:0;
+  box-shadow:0 8px 26px -8px rgba(0,0,0,.6);
+}
+.bubble.main{
+  left:-78px;top:-6px;
+  animation:bubbleMain 7s ease-in-out infinite;
+}
+.bubble.main::after{
+  content:"";position:absolute;bottom:-7px;left:38px;
+  width:14px;height:14px;background:inherit;
+  transform:rotate(45deg);border-radius:2px;
+}
+.bdot{
+  position:absolute;background:var(--pergament);border-radius:50%;
+  opacity:0;box-shadow:0 4px 12px -3px rgba(0,0,0,.5);
+}
+.bdot.d1{width:7px;height:7px;left:-26px;top:52px;animation:bdot 7s ease-in-out infinite}
+.bdot.d2{width:11px;height:11px;left:-40px;top:36px;animation:bdot 7s .25s ease-in-out infinite}
+.bdot.d3{width:15px;height:15px;left:-58px;top:18px;animation:bdot 7s .5s ease-in-out infinite}
+@keyframes bdot{
+  0%,8%{opacity:0;transform:scale(.4)}
+  14%,60%{opacity:1;transform:scale(1)}
+  72%,100%{opacity:0;transform:scale(.6)}
+}
+@keyframes bubbleMain{
+  0%,16%{opacity:0;transform:translateY(10px) scale(.92)}
+  26%,62%{opacity:1;transform:translateY(0) scale(1)}
+  76%,100%{opacity:0;transform:translateY(-14px) scale(.96)}
+}
+.monk-caption{
+  margin-top:1.1rem;text-align:center;
+  font-family:var(--mono);font-size:.68rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(163,148,122,.65);
+}
+
+/* ================= МОДАЛ — читање текста ================= */
+.modal{
+  position:fixed;inset:0;z-index:200;
+  display:flex;justify-content:center;align-items:flex-start;
+  padding:clamp(.8rem,3vw,3rem);
+  background:rgba(10,8,6,.82);
+  backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease;
+  overflow-y:auto;
+}
+.modal.open{opacity:1;pointer-events:auto}
+.modal-panel{
+  background:var(--noc2);
+  border:1px solid rgba(232,163,23,.3);
+  border-radius:6px;
+  max-width:760px;width:100%;
+  margin:auto 0;
+  padding:clamp(1.6rem,5vw,3.5rem);
+  position:relative;
+  transform:translateY(26px) scale(.98);
+  transition:transform .45s cubic-bezier(.2,.8,.2,1);
+  box-shadow:0 40px 120px -30px rgba(0,0,0,.9);
+}
+.modal.open .modal-panel{transform:none}
+.modal-close{
+  position:sticky;top:0;float:right;margin:-.6rem -.6rem 0 1rem;
+  width:42px;height:42px;border-radius:50%;
+  background:var(--noc3);border:1px solid rgba(232,163,23,.35);
+  color:var(--zlato);font-size:1.1rem;cursor:pointer;
+  transition:background .3s,transform .3s;
+  z-index:5;
+}
+.modal-close:hover{background:var(--grimiz);color:#fff;transform:rotate(90deg)}
+.art-cat{
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--zlato);display:block;margin-bottom:1rem;
+}
+.modal-panel h2{font-size:clamp(1.5rem,3.4vw,2.2rem);margin-bottom:1.6rem}
+.art-body{font-size:1.04rem;line-height:1.85;color:#d9cfba}
+.art-body p{margin-bottom:1.25rem}
+.art-body p:first-of-type::first-letter{
+  font-size:3.4em;float:left;line-height:.85;
+  padding:.06em .12em 0 0;color:var(--grimiz-svetao);font-weight:600;
+}
+.art-body h4{
+  font-size:1.15rem;font-weight:600;color:var(--zlato-svetlo);
+  margin:2rem 0 .9rem;letter-spacing:.02em;
+}
+.art-body em{color:var(--pergament)}
+.art-body .vinjeta{
+  text-align:center;color:var(--zlato);letter-spacing:.6em;
+  margin:2rem 0;font-size:.9rem;
+}
+.badge{
+  display:inline-block;font-family:var(--mono);font-size:.62rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  background:var(--grimiz);color:#fff;border-radius:2px;
+  padding:.22rem .55rem;margin-left:.6rem;vertical-align:middle;
+}
+
+/* ================= БЛАГОСЛОВ — десница из облака ================= */
+.blagoslov{
+  padding-top:1rem;padding-bottom:4.5rem;
+  display:flex;justify-content:center;text-align:center;
+}
+.hand-wrap{position:relative;display:inline-block}
+.hand-wrap::before{
+  content:"";position:absolute;left:50%;top:46%;
+  width:120%;height:120%;transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse, rgba(232,163,23,.10), transparent 65%);
+  pointer-events:none;
+  animation:nimbus 6s ease-in-out infinite;
+}
+.hand-img{
+  width:min(380px,80vw);height:auto;display:block;position:relative;
+  animation:handFloat 7s ease-in-out infinite;
+  transition:transform .7s cubic-bezier(.2,.8,.2,1), filter .7s;
+  filter:drop-shadow(0 18px 40px rgba(0,0,0,.55));
+}
+.hand-img:hover{
+  transform:translateY(-8px) scale(1.04);
+  filter:drop-shadow(0 24px 50px rgba(0,0,0,.6)) drop-shadow(0 0 34px rgba(232,163,23,.35));
+}
+@keyframes handFloat{
+  0%,100%{transform:translateY(0) rotate(0deg)}
+  50%{transform:translateY(-9px) rotate(-.6deg)}
+}
+.hand-caption{
+  margin-top:1.4rem;
+  font-family:var(--mono);font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;
+  color:rgba(163,148,122,.65);
+}
+
+/* ================= ПОДНОЖЈЕ ================= */
+footer{
+  border-top:1px solid var(--linija);
+  padding:3rem clamp(1.2rem,4vw,3rem) 2.2rem;
+  display:flex;flex-direction:column;align-items:center;gap:1.4rem;text-align:center;
+}
+footer img{height:54px;opacity:.9;transition:transform .5s, opacity .5s}
+footer img:hover{transform:scale(1.1) rotate(4deg);opacity:1}
+footer p{font-size:.85rem;color:var(--pepeo)}
+footer .ps{font-family:var(--mono);font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(163,148,122,.55)}
+
+/* ================= МОБИЛНО ================= */
+@media (max-width:880px){
+  .hero-row{grid-template-columns:1fr;gap:3.5rem}
+  .monk-scene{padding-top:4rem}
+  .bubble.main{left:-130px}
+  .nav-links{
+    position:fixed;top:0;right:0;height:100vh;width:min(76vw,320px);
+    background:var(--noc2);flex-direction:column;padding:6rem 2.2rem;
+    transform:translateX(100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);
+    border-left:1px solid var(--linija);gap:1.6rem;
+  }
+  .nav-links.open{transform:none}
+  .nav-toggle{display:block;z-index:110}
+  .nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .nav-toggle.open span:nth-child(2){opacity:0}
+  .nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+  .meet{grid-template-columns:1fr}
+  .meet-axis{flex-direction:row;width:100%}
+  .meet-axis .line{height:1px;width:auto;flex:1;background:linear-gradient(to right,transparent,var(--linija),transparent)}
+  .pod-grid{grid-template-columns:1fr}
+  .subscribe-box{grid-template-columns:1fr}
+  .sub-form{flex-direction:column}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <a class="nav-mark" href="#vrh">
+    <img src="images/znak.png" alt="Неуроаскеза — знак">
+    <span>Неуро<b>аскеза</b></span>
+  </a>
+  <button class="nav-toggle" id="navToggle" aria-label="Мени">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#o-sajtu">О сајту</a></li>
+    <li><a href="#teme">Теме</a></li>
+    <li><a href="#podkast">Подкаст</a></li>
+    <li><a href="#pretplata">Претплата</a></li>
+  </ul>
+</nav>
+
+<header class="hero" id="vrh">
+  <div class="hero-row">
+    <div class="hero-left">
+      <div class="hero-nimbus">
+        <img class="hero-logo" src="images/logo.png" alt="Неуроаскеза — логотип: мозак исцртан златом и назив исписан уставним писмом">
+      </div>
+      <p class="hero-tag">Гдје се <em>тиховање отаца</em> сусреће са <strong>савременом психологијом</strong> — простор за ум који тражи и срце које се моли.</p>
+      <p class="hero-verse">Срце чисто сазижди во мнѣ, Боже · Пс 50,12</p>
+    </div>
+
+    <div class="monk-scene" aria-label="Цртеж монаха који се моли са бројаницом">
+      <div>
+        <div class="monk-frame">
+          <div class="pray-bubbles" aria-hidden="true">
+            <span class="bdot d1"></span>
+            <span class="bdot d2"></span>
+            <span class="bdot d3"></span>
+            <span class="bubble main">Господе Исусе Христе,<br>помилуј ме</span>
+          </div>
+          <img class="monk-base" src="images/monah.png" alt="Монах погнуте главе моли се на столици држећи бројаницу">
+          <img class="monk-rope" src="images/brojanica.png" alt="" aria-hidden="true">
+        </div>
+        <p class="monk-caption">Молитва срца · непрестано</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll" aria-hidden="true"></div>
+</header>
+
+<main>
+
+<!-- ============ О САЈТУ ============ -->
+<section id="o-sajtu">
+  <div class="wrap">
+    <p class="eyebrow reveal">О сајту</p>
+    <h2 class="reveal d1">Двије хиљаде година искуства о души.<br>Један <span class="gold">ум</span>, једно <span class="crims">срце</span>.</h2>
+    <p class="lede reveal d2">Православна аскетска традиција вијековима је пажљиво описивала унутрашњи живот човјека — помисли, страсти, пажњу, тиховање. Савремена психологија истим питањима прилази другим језиком. <strong style="color:var(--pergament);font-weight:500">Неуроаскеза</strong> постоји да та два језика преводи један у други — не да их изједначи, него да их доведе у разговор.</p>
+
+    <div class="meet">
+      <div class="meet-col theo reveal d1">
+        <h3>Предање Цркве</h3>
+        <p>Искуство подвижника од пустиње до данас — психологија прије психологије.</p>
+        <ul>
+          <li>Учење о помислима — Евагрије Понтијски и Добротољубље</li>
+          <li>Тиховање и Исусова молитва — исихастичка пракса пажње</li>
+          <li>Страсти и врлине као динамика душе</li>
+          <li>Личност и заједница — од Свете Тројице до породице</li>
+        </ul>
+      </div>
+      <div class="meet-axis" aria-hidden="true">
+        <div class="line"></div>
+        <div class="cross">✛</div>
+        <div class="line"></div>
+      </div>
+      <div class="meet-col psy reveal d2">
+        <h3>Савремена психологија</h3>
+        <p>Шта наука о уму данас зна — и гдје ћути пред тајном личности.</p>
+        <ul>
+          <li>Пажња, навика и неуропластичност</li>
+          <li>Когнитивне дисторзије и борба са помислима</li>
+          <li>Психологија привржености и однос са Богом као Оцем</li>
+          <li>Туга, анксиозност и смисао — клиничко и духовно</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ТЕМЕ / ЧЛАНЦИ ============ -->
+<section id="teme" style="background:var(--noc2);border-top:1px solid var(--linija)">
+  <div class="wrap">
+    <p class="eyebrow reveal">Из писаонице</p>
+    <h2 class="reveal d1">Текстови који спајају <span class="gold">олтар</span> и <span class="crims">ординацију</span></h2>
+    <p class="lede reveal d2">Сваки текст полази од стварног питања — туге, расијаности, навике, односа — и тражи одговор и у светоотачком предању и у савременим истраживањима.</p>
+
+    <div class="cards">
+
+      <a class="card reveal" href="#" data-article="tihovanje">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: висеће кандило са пламеном">
+            <rect width="400" height="240" fill="#1d1712"/>
+            <circle cx="200" cy="128" r="64" fill="none" stroke="#E8A317" stroke-opacity=".14"/>
+            <path d="M196 8 h8 M200 4 v12" stroke="#E8A317" stroke-width="2.5" stroke-linecap="round"/>
+            <g stroke="#E8A317" stroke-width="1.6" stroke-dasharray="2 5" stroke-linecap="round">
+              <path d="M200 16 L156 118 M200 16 L244 118 M200 16 L200 112"/>
+            </g>
+            <ellipse cx="200" cy="120" rx="48" ry="9" fill="none" stroke="#E8A317" stroke-width="2.5"/>
+            <path d="M152 120 C 152 152 170 168 200 168 C 230 168 248 152 248 120" fill="none" stroke="#E8A317" stroke-width="2.5"/>
+            <path d="M200 168 v14 M188 188 h24" stroke="#E8A317" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M200 86 C 209 100 212 108 208 117 C 205 123 201 126 200 127 C 199 126 195 123 192 117 C 188 108 191 100 200 86 Z" fill="#B01818"/>
+            <path d="M200 99 C 205 107 206 112 204 117 C 202 121 200 122 200 123 C 200 122 198 121 196 117 C 194 112 195 107 200 99 Z" fill="#F2C14E"/>
+            <circle cx="200" cy="108" r="26" fill="none" stroke="#F2C14E" stroke-opacity=".3"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Теологија · Пажња<span class="badge">Истакнуто</span></span>
+          <h3>Тиховање као тренинг пажње: шта исихазам зна о расијаном уму</h3>
+          <p>Зашто отци пустиње звуче као савремени истраживачи пажње — и шта пракса Исусове молитве чини са умом који стално бјежи.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+      <a class="card reveal d1" href="#" data-article="pomisli">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: молитвеник са раширеним рукама и птице помисли">
+            <rect width="400" height="240" fill="#1d1712"/>
+            <circle cx="200" cy="78" r="26" fill="none" stroke="#E8A317" stroke-opacity=".8" stroke-width="2"/>
+            <circle cx="200" cy="78" r="12" fill="none" stroke="#E8A317" stroke-width="2.5"/>
+            <path d="M200 90 C 186 96 180 108 176 128 L 166 196 L 234 196 L 224 128 C 220 108 214 96 200 90 Z" fill="none" stroke="#E8A317" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M180 112 C 168 106 156 96 150 84 M150 84 l-2 -9 M150 84 l9 -2" stroke="#E8A317" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M220 112 C 232 106 244 96 250 84 M250 84 l2 -9 M250 84 l-9 -2" stroke="#E8A317" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M190 196 v-26 M210 196 v-26" stroke="#E8A317" stroke-opacity=".4" stroke-width="1.6"/>
+            <g stroke="#B01818" stroke-width="2.4" fill="none" stroke-linecap="round">
+              <path d="M108 56 q8 -9 16 0 M124 56 q8 -9 16 0"/>
+              <path d="M268 42 q7 -8 14 0 M282 42 q7 -8 14 0"/>
+              <path d="M300 96 q6 -7 12 0 M312 96 q6 -7 12 0"/>
+              <path d="M76 118 q6 -7 12 0 M88 118 q6 -7 12 0"/>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat red">Психологија · Помисли<span class="badge">Истакнуто</span></span>
+          <h3>Од прилога до пристанка: светоотачка мапа аутоматске мисли</h3>
+          <p>Степени развоја помисли код отаца и когнитивни модел аутоматских мисли — двије мапе истог терена, читане упоредо.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+      <a class="card reveal d2" href="#" data-article="ispovijest">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: отворено Јеванђеље са крстом и свијећа">
+            <rect width="400" height="240" fill="#1d1712"/>
+            <path d="M118 150 C 150 136 185 136 200 146 C 215 136 250 136 282 150 L 282 96 C 250 82 215 82 200 92 C 185 82 150 82 118 96 Z" fill="none" stroke="#E8A317" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M200 92 V 146" stroke="#E8A317" stroke-width="2"/>
+            <g stroke="#E8A317" stroke-opacity=".45" stroke-width="1.6" stroke-linecap="round">
+              <path d="M134 104 c 18 -7 36 -8 52 -3 M134 116 c 18 -7 36 -8 52 -3 M134 128 c 18 -7 36 -8 52 -3"/>
+            </g>
+            <path d="M241 96 v34 M227 109 h28" stroke="#B01818" stroke-width="4" stroke-linecap="round"/>
+            <path d="M118 150 L 200 162 L 282 150 L 282 158 L 200 171 L 118 158 Z" fill="none" stroke="#E8A317" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M318 132 v44" stroke="#EDE3CF" stroke-width="5" stroke-linecap="round"/>
+            <path d="M318 110 C 323 118 324 122 322 127 C 320 130 319 131 318 132 C 317 131 316 130 314 127 C 312 122 313 118 318 110 Z" fill="#F2C14E"/>
+            <circle cx="318" cy="121" r="14" fill="none" stroke="#F2C14E" stroke-opacity=".3"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Теологија · Психотерапија<span class="badge">Истакнуто</span></span>
+          <h3>Може ли хришћанин код психолога? Исповијест и терапија без забуне</h3>
+          <p>Шта је дјело свештеника, а шта терапеута; гдје се службе додирују, а гдје замјена улога штети и души и лијечењу.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+      <a class="card reveal" href="#" data-article="post">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: просфора са печатом ИС ХС НИ КА и класје">
+            <rect width="400" height="240" fill="#1d1712"/>
+            <circle cx="200" cy="122" r="66" fill="none" stroke="#E8A317" stroke-width="2.5"/>
+            <circle cx="200" cy="122" r="56" fill="none" stroke="#E8A317" stroke-opacity=".35" stroke-width="1.5"/>
+            <rect x="170" y="92" width="60" height="60" fill="none" stroke="#B01818" stroke-width="2.5"/>
+            <path d="M200 92 v60 M170 122 h60" stroke="#B01818" stroke-width="2.5"/>
+            <g font-family="Spectral,serif" font-size="13" font-weight="600" fill="#E8A317" text-anchor="middle">
+              <text x="185" y="112">ІС</text><text x="215" y="112">ХС</text>
+              <text x="185" y="142">НИ</text><text x="215" y="142">КА</text>
+            </g>
+            <g stroke="#E8A317" stroke-opacity=".7" stroke-width="2" fill="none" stroke-linecap="round">
+              <path d="M92 176 C 96 150 100 126 110 104"/>
+              <path d="M110 104 l-9 -3 M112 116 l-10 -4 M108 128 l-10 -4 M106 140 l-10 -4 M110 104 l5 -9 M112 116 l6 -9 M108 128 l6 -9"/>
+              <path d="M308 176 C 304 150 300 126 290 104"/>
+              <path d="M290 104 l9 -3 M288 116 l10 -4 M292 128 l10 -4 M294 140 l10 -4 M290 104 l-5 -9 M288 116 l-6 -9 M292 128 l-6 -9"/>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat red">Психологија · Аскеза</span>
+          <h3>Пост као наука о навици: четрдесетница и снага малог одрицања</h3>
+          <p>Зашто Црква вјежба вољу кроз тијело — и шта истраживања самоконтроле говоре о смислу поста који је старији од њих.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+      <a class="card reveal d1" href="#" data-article="privrzenost">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: два нимба — Богородица и Дијете">
+            <rect width="400" height="240" fill="#1d1712"/>
+            <circle cx="178" cy="110" r="58" fill="none" stroke="#E8A317" stroke-width="2.5"/>
+            <circle cx="178" cy="110" r="50" fill="none" stroke="#E8A317" stroke-opacity=".3" stroke-width="1.5"/>
+            <circle cx="240" cy="142" r="34" fill="none" stroke="#B01818" stroke-width="2.5"/>
+            <path d="M240 128 v28 M226 142 h28" stroke="#B01818" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M178 66 l4 9 9 1 -7 7 2 9 -8 -5 -8 5 2 -9 -7 -7 9 -1 Z" fill="#F2C14E"/>
+            <g fill="#E8A317" font-family="Spectral,serif" font-size="13" font-weight="600">
+              <text x="106" y="62">МР</text><text x="232" y="86">ѲУ</text>
+            </g>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat">Теологија · Односи</span>
+          <h3>Приврженост и богоопштење: како рана љубав обликује слику о Богу</h3>
+          <p>Теорија привржености сусреће богословље личности: зашто човјек Бога често гледа очима свог дјетињства — и како се та слика исцјељује.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+      <a class="card reveal d2" href="#" data-article="tuga">
+        <div class="card-img">
+          <svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Илустрација: упаљена свијећа у тами">
+            <rect width="400" height="240" fill="#16110c"/>
+            <g fill="#E8A317">
+              <circle cx="84" cy="58" r="1.6" opacity=".6"/><circle cx="138" cy="38" r="1.2" opacity=".4"/>
+              <circle cx="318" cy="66" r="1.6" opacity=".6"/><circle cx="282" cy="42" r="1.2" opacity=".4"/>
+              <circle cx="62" cy="172" r="1.2" opacity=".35"/><circle cx="346" cy="184" r="1.4" opacity=".45"/>
+            </g>
+            <circle cx="200" cy="92" r="44" fill="none" stroke="#F2C14E" stroke-opacity=".18"/>
+            <circle cx="200" cy="92" r="26" fill="none" stroke="#F2C14E" stroke-opacity=".3"/>
+            <path d="M200 64 C 211 82 214 92 209 103 C 205 110 201 113 200 114 C 199 113 195 110 191 103 C 186 92 189 82 200 64 Z" fill="#B01818"/>
+            <path d="M200 80 C 206 90 207 96 204 103 C 202 107 201 108 200 109 C 199 108 198 107 196 103 C 193 96 194 90 200 80 Z" fill="#F2C14E"/>
+            <path d="M193 118 h14 L 206 196 h-12 Z" fill="none" stroke="#EDE3CF" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M193 128 c 0 8 -4 10 -4 18" stroke="#EDE3CF" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M172 196 h56 M180 204 h40" stroke="#E8A317" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="card-body">
+          <span class="card-cat red">Психологија · Смисао</span>
+          <h3>Туга која није болест: жалост по Богу и депресија — разликовање духова</h3>
+          <p>Гдје пролази граница између покајне туге, обичне жалости и клиничке депресије — и зашто је то разликовање дјело љубави, а не дијагнозе.</p>
+          <span class="card-more">Прочитај текст</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ ПОДКАСТ ============ -->
+<section id="podkast" class="podcast">
+  <div class="wrap">
+    <p class="eyebrow reveal">Подкаст</p>
+    <h2 class="reveal d1">Разговори у којима <span class="gold">богослов</span> и <span class="crims">психолог</span> сједе за истим столом</h2>
+    <p class="lede reveal d2">Подкаст „Неуроаскеза" — мирни, дуги разговори са свештеницима, психолозима, психијатрима и научницима о души, уму и спасењу. Без журбе, без сензације.</p>
+
+    <div class="pod-grid">
+      <div class="pod-visual reveal d1">
+        <div class="pod-disc" title="Подкаст Неуроаскеза">
+          <div class="pod-wave"></div>
+          <div class="pod-wave w2"></div>
+          <div class="pod-wave w3"></div>
+          <img src="images/znak.png" alt="Знак подкаста — мозак исцртан златом">
+        </div>
+      </div>
+      <div class="reveal d2">
+        <ul class="episodes">
+          <li class="ep">
+            <span class="ep-num">Еп. 01</span>
+            <span class="ep-title">Шта је неуроаскеза?
+              <small>Уводни разговор: зашто аскетика и наука о уму нису непријатељи</small>
+            </span>
+            <span class="ep-play">▶</span>
+          </li>
+          <li class="ep">
+            <span class="ep-num">Еп. 02</span>
+            <span class="ep-title">Помисли под микроскопом
+              <small>Евагријевих осам помисли и савремена когнитивна наука</small>
+            </span>
+            <span class="ep-play">▶</span>
+          </li>
+          <li class="ep">
+            <span class="ep-num">Еп. 03</span>
+            <span class="ep-title">Молитва и мозак
+              <small>Шта се дешава у уму човјека који се моли — разговор са неуронаучником</small>
+            </span>
+            <span class="ep-play">▶</span>
+          </li>
+          <li class="ep">
+            <span class="ep-num">Еп. 04</span>
+            <span class="ep-title">Дигитални пост
+              <small>Пажња као највреднија имовина и аскеза екрана</small>
+            </span>
+            <span class="ep-play">▶</span>
+          </li>
+        </ul>
+        <div class="pod-platforms">
+          <a class="chip" href="#">YouTube</a>
+          <a class="chip" href="#">Spotify</a>
+          <a class="chip" href="#">Apple Podcasts</a>
+          <a class="chip" href="#">RSS</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ЦИТАТ ============ -->
+<section>
+  <div class="quote reveal">
+    <blockquote>Стекни мир у себи, и хиљаде око тебе ће се спасити.</blockquote>
+    <cite>Преподобни Серафим Саровски</cite>
+  </div>
+  <div class="carinik-wrap reveal d1">
+    <img class="carinik-img" src="images/carinik.png" alt="Икона цариника погнуте главе, са ореолом, обасјаног зраком свјетлости одозго — смирење и покајање">
+    <p class="carinik-caption">„Боже, милостив буди мени грешноме“ · Лк 18,13</p>
+  </div>
+</section>
+
+<!-- ============ ПРЕТПЛАТА ============ -->
+<section id="pretplata" style="padding-top:0">
+  <div class="wrap">
+    <div class="subscribe-box reveal">
+      <div>
+        <p class="eyebrow" style="margin-bottom:.8rem">Писмо читаоцима</p>
+        <h2 style="font-size:clamp(1.5rem,3vw,2.1rem);margin-bottom:.6rem">Једно писмо мјесечно.<br>Без буке.</h2>
+        <p class="lede" style="font-size:1rem">Нови текстови, нове епизоде подкаста и по једна мисао отаца за тај мјесец — право у твоје сандуче.</p>
+      </div>
+      <form class="sub-form" onsubmit="event.preventDefault(); this.querySelector('input').value=''; alert('Хвала! Пријава је забиљежена.');">
+        <input type="email" required placeholder="твоја@адреса.рс" aria-label="Адреса е-поште">
+        <button class="btn" type="submit">Пријави се</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ БЛАГОСЛОВ ============ -->
+<section class="blagoslov" aria-label="Благослов">
+  <div class="hand-wrap reveal">
+    <img class="hand-img" src="images/desnica.png" alt="Десница Господња која благосиља из облака — фрагмент старе иконе">
+    <p class="hand-caption">Десница Господња твори силу · Пс 117,16</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <img src="images/znak.png" alt="Неуроаскеза">
+  <p>Неуроаскеза · Православна теологија и психологија у разговору</p>
+  <p class="ps">Слава Богу за све · 2026</p>
+</footer>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <div class="modal-panel">
+    <button class="modal-close" id="modalClose" aria-label="Затвори">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+// навигација — сјенка при скролу
+const nav = document.getElementById('nav');
+addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 30), {passive:true});
+
+// мобилни мени
+const toggle = document.getElementById('navToggle');
+const links = document.getElementById('navLinks');
+toggle.addEventListener('click', () => {
+  toggle.classList.toggle('open');
+  links.classList.toggle('open');
+});
+links.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  toggle.classList.remove('open'); links.classList.remove('open');
+}));
+
+// откривање при скролу
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+}, {threshold:.15});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// ====== ЧЛАНЦИ ======
+const ARTICLES = {
+tihovanje: {
+  cat: "Теологија · Пажња",
+  title: "Тиховање као тренинг пажње: шта исихазам зна о расијаном уму",
+  body: `
+<p>Сваки човјек који је икада покушао да се помоли зна шта се деси у првих тридесет секунди. Ум, који је до малоприје мирно стајао, одједном се сјети неплаћеног рачуна, јучерашњег разговора, сутрашње обавезе. Свети Јован Лествичник то описује без увијања: ум је скитница, и нигдје се његова склоност лутању не види јасније него у молитви.</p>
+<p>Управо зато је источна аскетска традиција — исихазам, од грчке ријечи <em>исихиа</em>, тиховање — вијековима развијала нешто што бисмо данашњим језиком назвали школом пажње. Отци нису имали лабораторије, али су имали оно што савремена наука тек учи да цијени: деценије стрпљивог, систематског посматрања сопственог ума, из дана у дан, из ноћи у ноћ.</p>
+<h4>Молитва од једне реченице</h4>
+<p>Средиште те школе је Исусова молитва: <em>Господе Исусе Христе, Сине Божији, помилуј ме грешног.</em> Једна реченица, понављана полако, уз дисање, уз бројаницу, хиљадама пута. Споља гледано — једноличност. Изнутра — најзахтјевнија вјежба коју ум може добити: вратити се. Опет се вратити. И опет.</p>
+<p>Ту је прва тачка сусрета са савременом психологијом. Истраживања пажње углавном се слажу да се пажња понаша као способност која се вјежба: свако примјећивање да је ум одлутао и свако враћање на предмет јесте једно „понављање" те вјежбе. А управо то је унутрашња механика Исусове молитве. Подвижник не успијева тако што никад не одлута — него тако што је хиљаду пута устао и вратио се. Свети оци би рекли: пад није пропаст; пропаст је остати доле.</p>
+<h4>Пажња није циљ, него праг</h4>
+<p>Овдје, међутим, исихазам и савремене технике пажње крећу различитим путевима — и поштено је то рећи. Вјежбе сабраности данас се најчешће нуде ради смирења, продуктивности, здравља. Све то су добри плодови, и отци их познају: тиховање доноси мир, бистрину, чак и тјелесно здравље. Али за исихасту, сабран ум није циљ. Сабран ум је тек праг.</p>
+<p>Свети Теофан Затворник учи да је суштина молитве „стајати умом у срцу пред Богом". Пажња се сабира не да би човјек био ефикаснији, него да би имао шта принијети — да би цио, несабран и расут човјек постао једно, и то једно окренуо Личности која га гледа. Зато отци упозоравају и на опасност коју ниједан приручник о концентрацији не помиње: на прелест, само-обману ума који је технику савладао, а срце оставио неочишћено. Тиховање без смирења, кажу, опасније је од расијаности.</p>
+<h4>Шта расијан човјек данас може да понесе</h4>
+<p>Не мора човјек бити монах да би из ове школе нешто понио. Три ствари су преносиве у сваки живот:</p>
+<p><em>Прво</em> — кратко, а стално. Отци су више цијенили мало правило које се држи сваког дана него велико које се одржи седмицу. Пет минута Исусове молитве ујутру, сваког јутра, мијења више него сат времена једном мјесечно — и свака наука о навикама ово би потписала.</p>
+<p><em>Друго</em> — тијело је савезник. Бројаница у руци, успорено дисање, стајање пред иконом: исихазам никад није био „само у глави". Пажња се лакше сабира кад је укотвљена у тијелу — што је увид који тјелесно оријентисане терапије поново откривају.</p>
+<p><em>Треће</em> — без самооптуживања. Кад примијетиш да си одлутао, то није пораз: то је тренутак буђења, и једини тренутак у коме се вјежба уопште дешава. Врати се без драме, као што се дијете враћа оцу.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Расијаност није модерна болест — модерна је само индустрија која од ње живи. Лијек је стар: једна реченица, једно срце, и хиљаду стрпљивих повратака. Тиховање не обећава ум без мисли; обећава ум који зна коме припада.</p>`
+},
+pomisli: {
+  cat: "Психологија · Помисли",
+  title: "Од прилога до пристанка: светоотачка мапа аутоматске мисли",
+  body: `
+<p>Негдје у четвртом вијеку, у египатској пустињи, Евагрије Понтијски је сјео и пописао оно што се дешава у глави човјека који покушава да живи сабрано. Без иједног инструмента осим сопствене будности, саставио је каталог од осам родова помисли — стомакоугађање, блуд, среброљубље, гнев, туга, униније, таштина, гордост — и, што је још важније, описао <em>како</em> помисао расте: од првог додира до потпуног заробљавања ума.</p>
+<p>Шеснаест вијекова касније, когнитивна психологија је, другим рјечником и другим методом, исцртала запањујуће сличну мапу. Поставимо те двије мапе једну поред друге.</p>
+<h4>Пет степеника наниже</h4>
+<p>Светоотачко предање, систематизовано касније код отаца Добротољубља, разликује степене развоја помисли. <em>Прилог</em> је први додир — мисао или слика која се појави сама од себе, непозвана. Отци су јединствени у оцjени: за прилог човјек није крив. Он је као птица која пролети изнад главе.</p>
+<p><em>Сочетаније</em> је разговор: ум се окренуо за помишљу и почео да је разгледа. <em>Сослoжeње</em> је пристанак — воља је рекла „да". Слиједи <em>плијењење</em>, кад мисао већ вуче човјека куда он није хтио, и најзад <em>страст</em>: утврђена навика душе, колотечина у којој се точак сам окреће.</p>
+<h4>Иста мапа, други језик</h4>
+<p>Когнитивни модел почиње од сличног открића: мисли долазе саме. Аутоматска мисао — „нико ме не воли", „све ћу упропастити" — искрсне непозвана, као Евагријев прилог. И као код отаца, кључно мјесто није појава мисли, него оно што слиједи: да ли ће је човјек узети за истину и ући с њом у разговор. Оно што терапеути зову стапањем с мишљу, отци су звали сочетанијем; оно што се у терапији назива руминацијом — точак истог садржаја који се врти сатима — отци би препознали као плијењење; а утврђене обрасце мишљења и понашања, који се годинама уписују све дубље, као страст.</p>
+<p>Подударност није случајна. И пустињак и истраживач посматрају исти предмет — људски ум — и обојица су посматрали пажљиво. Разлика је у томе шта с мапом раде.</p>
+<h4>Гдје се мапе разилазе</h4>
+<p>Когнитивна терапија учи човјека да аутоматску мисао ухвати, испита и провјери: је ли тачна? Има ли доказа? То је драгоцјена вјештина и многима је вратила живот. Светоотачки приступ иде корак даље у дијагнози: помисао није само грешка у обради података, него догађај у односу — нешто што човјека одваја или приводи Богу. Зато отац не каже само „провјери мисао", него „не разговарај с њом — окрени се". Умјесто расправе с помишљу, Исусова молитва: кратка, позната, топла. Умјесто побјеђивања мисли аргументом — замјена сабесједника.</p>
+<p>Ту лежи и практична мудрост за свакога: с неким мислима се не расправља, јер сама расправа јесте сочетаније. Ко је икад покушао да се у три ујутру „изрaспрaвљa" с тјескобном мишљу, зна да расправа храни оно што гладује за пажњом.</p>
+<h4>Мала вјежба разликовања</h4>
+<p>Сљедећи пут кад непозвана мисао дође, покушај само ово: именуj степеник. „Ово је прилог — нисам крив и не морам ништа с њим." Ако се ухватиш у разговору: „Ово је већ сочетаније — још увијек могу да се окренем." Само то именовање, потврдиће и психолог и духовник, враћа човјеку слободу која се у аутоматизму губи.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Евагрије није имао појма о неуронима. Али је знао оно што се не мијења: човјек није својe мисли. Између прилога и пристанка постоји простор — узак, али стваран — и у том простору станује и слобода, и подвиг, и благодат.</p>`
+},
+ispovijest: {
+  cat: "Теологија · Психотерапија",
+  title: "Може ли хришћанин код психолога? Исповијест и терапија без забуне",
+  body: `
+<p>Питање из наслова поставља се у црквеним двориштима тише него друга, али се поставља стално. Млада мајка коју је преплавила тјескоба; човјек који послије губитка не може да устане из туге; студент кога напади панике стижу усред предавања. Сви они воле Цркву — и сви се питају: смијем ли потражити и стручну помоћ, или је то знак мале вјере?</p>
+<p>Одговор предања је јаснији него што се обично мисли — али тражи да прво раздвојимо двије службе које се често бркају.</p>
+<h4>Шта је исповијест</h4>
+<p>Исповијест је света тајна. У њој човјек не „рјешава проблем", него стоји пред живим Богом и враћа се кући, као блудни син. Свештеник није ту као стручњак за душевне механизме, него као свједок сусрета и служитељ опроштаја. Мјера исповијести није „осјећам се боље" (мада се човјек често осјећа неизрециво лакше), него: помирен сам, опроштено ми је, поново сам у заједници.</p>
+<p>Зато исповијест не застаријева и не може је замијенити никаква метода — јер ниједна метода не опрашта гријехе.</p>
+<h4>Шта је психотерапија</h4>
+<p>Психотерапија је нешто друго и скромније: стручна, временски ограничена помоћ да се разумију и промијене обрасци мишљења, осјећања и понашања који човјека муче. Терапеут не опрашта гријехе и не води ка спасењу — нити то тврди. Он помаже да се одвеже чвор: да тјескоба добије име, да туга добије ток, да навика добије алтернативу.</p>
+<p>Кад се те двије службе тако поставе, види се да оне нису такмаци, него сусједи. Свети Нектарије Егински лијечио се код љекара; преподобни Порфирије Кавсокаливит говорио је о душевним стањима с пажњом која би посрамила понеког клиничара — и слао је људе љекарима кад је томе било мјесто. Тијело лијечи љекар, душевне процесе помаже да распетља терапеут, а душу спасава Бог — и једно другом не смета, него помаже.</p>
+<h4>Гдје настаје забуна</h4>
+<p>Штета настаје кад једна служба покуша да замијени другу. Кад човјек од исповијести очекује терапију — па се разочара што послије разрјешења тјескоба није нестала, као да је благодат лијек против симптома. Или обрнуто: кад од терапије очекује опроштај и смисао — па године проведе анализирајући себе, а кајање замијени објашњењем. Објашњен гријех није исто што и опроштен гријех; смирен симптом није исто што и спасена душа.</p>
+<p>Посебно треба рећи јасно: кад је човјеку тешко до те мјере да помишља да живот нема смисла, или да би себи нешто учинио — то није тренутак за дилеме о „малој вјери". То је тренутак да се потражи и духовник и стручна помоћ, одмах, и једно и друго. Тражење помоћи није мањак вјере; неискање помоћи из стида — то је замка.</p>
+<h4>Практично разликовање</h4>
+<p>Код духовника се иде са гријехом, са питањем савјести, са жеђу за Богом — и редовно, не само у кризи. Код психолога или психијатра се иде кад сметња траје и омета живот: сан, рад, односе, вољу. А често је пут — оба врата. Добар духовник ће се обрадовати што се његово духовно чедо лијечи; добар терапеут ће поштовати вјеру свог клијента као снагу, а не као симптом.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Може ли, дакле, хришћанин код психолога? Може — и понекад треба. Вјера која се боји истине о сопственој души није велика него уплашена вјера. А Онај који је створио и душу и памет неће се наљутити што човјек користи обоје да би оздравио.</p>`
+},
+post: {
+  cat: "Психологија · Аскеза",
+  title: "Пост као наука о навици: четрдесетница и снага малог одрицања",
+  body: `
+<p>Сваке године, кад почне Часни пост, понови се исти призор: свијет који је одавно престао да разумије пост одједном открива његове рођаке под другим именима. „Изазов тридесет дана без шећера." „Дигитална детоксикација." „Хладни тушеви." Човјек двадесет првог вијека, заробљен у изобиљу, инстинктивно тражи оно што је Црква никад није ни престала да практикује: добровољно, одмјерено, осмишљено одрицање.</p>
+<p>Разлика је у томе што Црква зна <em>зашто</em> то ради — и што то ради двије хиљаде година, довољно дуго да исправи све почетничке грешке које савремени изазови тек треба да направе.</p>
+<h4>Зашто баш кроз тијело</h4>
+<p>Прво питање које савремени човјек постави гласи: какве везе има храна са душом? Ако је вјера ствар срца, чему тањир?</p>
+<p>Светоотачки одговор је антрополошки прецизан: човјек није дух заробљен у тијелу, него јединство душе и тијела — и зато се душа најпоузданије вјежба управо кроз тијело. Воља која није никад рекла „не" нечем малом и конкретном, неће знати да каже „не" ни нечем великом. Свети Јован Златоусти зато пост назива школом: не казном за тијело, него вјежбалиштем за вољу. А циљ вјежбе никад није глад сама по себи — него слобода. Пост је, кажу оци, начин да човјек докаже себи да није роб ничега створеног.</p>
+<h4>Шта о томе каже наука о навикама</h4>
+<p>Истраживања самоконтроле посљедњих деценија кружила су око неколико налаза који би сваком искусном духовнику звучали познато. Прво: воља се понаша као способност која се развија вјежбом — мала, редовна одрицања временом олакшавају већа. Друго: навика се не мијења херојским одлукама него структуром — унапријед одређеним правилима која одлуку склањају из тренутка искушења. И треће: одрицање успијева кад има смисао — кад човјек зна ради чега се одриче, а не само чега.</p>
+<p>Погледајмо сад четрдесетницу тим очима. Мала, свакодневна одрицања? Има их у сваком оброку. Унапријед одређена структура? Постоји типик: човјек не одлучује у седам увече хоће ли постити, него је одлука донесена прије него што је искушење дошло. Смисао? Пост је окренут Пасхи — одрицање није циљ него пут, и зато не пада у мрачњаштво. Заједница? Пости цијела Црква одједном, а истраживања промјене навика једногласна су да заједница носи пола терета. Четрдесетница је, без претјеривања, најстарији и најпромишљенији програм промјене навика који постоји у непрекидној употреби.</p>
+<h4>Гдје се пост и „изазов" разилазе</h4>
+<p>Па ипак, пост није тек древни лајфхак — и ту треба бити поштен у оба смјера. Изазов тридесет дана служи човјеку: његовом здрављу, изгледу, осјећају постигнућа. Пост служи сусрету: оно што се уштеди на трпези, предање каже, даје се сиромаху; вријеме које се уштеди на стомаку, даје се молитви. Пост без милостиње и молитве, говорили су оци, јесте дијета — и нису то мислили као комплимент.</p>
+<p>Зато је у посту уграђена и заштита од његове сопствене карикатуре: гордости испосника. Ко пости а постане раздражљив, осуђује оне који не посте, или мјери туђе тањире — промашио је пост у самој ствари, ма како строго постио. Боље је, кажу оци, јести месо са смирењем него сочиво са гордошћу.</p>
+<h4>Мјера и благослов</h4>
+<p>И посљедње, важно: пост је одувијек био одмјераван према човјеку. Болесни, труднице, дјеца, путници — предање за све њих зна и за све њих попушта мјеру без гриже савјести. Пост се узима са благословом духовника, према сопственим снагама, и расте полако, као и свака навика која мисли да остане. Ко први пут пости, нека почне од мало; ко има здравствене недоумице, нека пита и љекара и духовника — обојица су ту за исто: за човјека.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Четрдесет дана није магичан број за формирање навике. Магичног броја нема. Али четрдесет дана одрицања са смислом, у заједници, окренутог Васкрсу — то није експеримент над собом. То је пут, утабан милионима стопа прије наших, и зато се њиме иде лакше него што изгледа са почетка.</p>`
+},
+privrzenost: {
+  cat: "Теологија · Односи",
+  title: "Приврженост и богоопштење: како рана љубав обликује слику о Богу",
+  body: `
+<p>Постоји појава коју сваки духовник зна, а ниједан је уџбеник догматике не објашњава до краја: два човјека стоје у истом храму, слушају исто Јеванђеље, исповиједају исту вјеру — а Бога доживљавају потпуно различито. Један као Оца коме се трчи. Други као надзорника који само чека грешку. Трећи као далеку силу која се на њега лично не осврће.</p>
+<p>Догматика им је иста. Шта им је различито?</p>
+<h4>Прва школа повјерења</h4>
+<p>Психологија привржености, изграђена на дугогодишњем посматрању дјеце и родитеља, нуди дио одговора. Дијете у првим годинама живота не учи о љубави из ријечи, него из хиљада ситних искустава: кад заплачем — да ли неко дође? Кад погријешим — да ли ме и даље хоће? Кад одем да истражујем — има ли куда да се вратим? Из тих искустава настаје оно што истраживачи зову радним моделом односа: дубоко, претежно несвјесно очекивање шта се од блиског бића може очекивати.</p>
+<p>И сад кључна ствар: тај модел не остаје у дјетињству. Он постаје наочаре кроз које човјек гледа сваку каснију блискост — пријатељство, брак — па, како истраживања односа религиозности и привржености доследно показују, и однос са Богом. Човјек који је научио да је љубав условна, спонтано ће и Божију љубав доживљавати као условну — ма шта му проповијед говорила. Ум је чуо да је Бог љубав; срце је запамтило нешто друго.</p>
+<h4>Шта на то каже богословље</h4>
+<p>Овдје богословље има да дода нешто одлучујуће — и утјешно. Слика о Богу није Бог. То што човјек Бога <em>доживљава</em> као хладног или пријетећег не значи да Бог такав <em>јесте</em>; значи да између човјека и Бога стоје наочаре исхабане у раним одајама душе. Светоотачким рјечником: и то је један облик помисли — слика која се намеће умјесто стварности.</p>
+<p>Откривење је у том смислу непрестана исправка наших пројекција. Христос Бога не показује као надзорника него као оца из приче о блудном сину — оног који трчи у сусрет, који не чека извињење до краја, који грли прије објашњења. Ту причу Господ није испричао онима који су имали добре очеве; испричао ју је свима, рачунајући управо на то да ће многима слика бити невјероватна.</p>
+<h4>Може ли се слика исцијелити</h4>
+<p>Може — то тврде и предање и истраживања, свако са своје стране. Модели привржености нису судбина: мијењају се, полако, кроз нова искуства поузданог односа. А ту Црква, често и не знајући, ради управо тај посао. Стабилан, дугогодишњи однос са духовником који не одбацује него подиже. Заједница која остане и кад човјек посрне. Богослужбени ритам који се враћа сваке недјеље, поуздан као откуцај срца. Молитва као свакодневно обраћање Некоме ко не отказује. Сваки од тих елемената је, психолошким рјечником, корективно искуство односа — а духовним рјечником, благодат која дјелује кроз вријеме и вјерност.</p>
+<p>Понекад је у том путу драгоцјена и стручна помоћ: тамо гдје су ране дубоке, психотерапија може одрадити дио посла који се молитвом не замјењује него ослобађа — као што се сломљена рука прво намјести, па тек онда поново учи да се прекрсти.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Нико од нас не долази Богу празних руку: сви долазимо са сликама које су нам уцртали они који су нас први вољели — добро или лоше, како су умјели. Добра вијест је двострука: те слике нису пресуда, а Онај коме идемо стрпљив је са нашим наочарима. Он ће чекати, и трчати у сусрет, док их скидамо — једну по једну, годинама ако треба.</p>`
+},
+tuga: {
+  cat: "Психологија · Смисао",
+  title: "Туга која није болест: жалост по Богу и депресија — разликовање духова",
+  body: `
+<p>Међу свим унутрашњим стањима, туга је најгоре прошла у преводу на савремени језик. С једне стране се сваки облак прогласи „депресијом", па ријеч изгуби тежину. С друге стране, тамо гдје права невоља постоји, човјеку се поручи да се „тргне" и „помоли па ће проћи" — па се терет удвостручи стидом. Између те двије грешке стоји старо аскетско умијеће које се зове разликовање — и њему је овај текст посвећен.</p>
+<h4>Три туге, не једна</h4>
+<p>Предање не познаје једну тугу него најмање три, и не вреднује их исто.</p>
+<p>Прва је <em>жалост по Богу</em> — туга покајања. Апостол Павле пише да жалост по Богу доноси покајање за спасење, и да се за њом не жали. То је туга која има смјер: боли, али креће човјека ка извору, као што бол у нози тјера да се извади трн. Њени плодови су чудни за тугу: мир послије суза, мекше срце, воља за животом. Оци су је звали радосна туга — јединствен спој који сваки човјек који је икада заплакао на исповиједи одмах препозна.</p>
+<p>Друга је туга свијета — обична људска жалост због губитка: смрти, растанка, изневјерене наде. Она није ни гријех ни болест; она је цијена љубави. И Христос је заплакао над гробом пријатеља. Таква туга тражи вријеме, заједницу и утјеху — не лијечење и не пожуривање.</p>
+<p>Трећу су оци звали безнадежна туга или је сврставали уз униније: туга без смјера, која не води ни ка Богу ни кроз губитак, него се врти у мјесту и троши човјека. Управо ту, на трећем мјесту, светоотачка мапа и клиничка мапа почињу да се преклапају.</p>
+<h4>Гдје туга престаје да буде само туга</h4>
+<p>Савремена психијатрија депресију не одређује по томе што је човјек тужан, него по склопу знакова који трају: вишенедјељна потиштеност или гашење сваке радости, измијењен сан и апетит, исцрпљеност без узрока, неспособност одлучивања, осјећање безвриједности које не одговара чињеницама — и све то тако да омета свакодневни живот. Другим ријечима: депресија није јака туга, него стање у коме се и сама способност тоговања, радовања и хтијења квари. Зато савјети „разведри се" ту не помажу — као што се ни сломљена нога не лијечи бодрењем да се потрчи.</p>
+<p>За разликовање може послужити неколико једноставних питања. Има ли туга предмет — жалим ли за нечим, или је све сиво без разлога? Помјера ли се — има ли дана кад је лакше, или је равна линија седмицама? Шта чини са љубављу — приближава ли ме људима и Богу, или ме одсијеца и од њих и од себе? И најважније: шта говори о сутра — да је тешко, или да сутра не вриједи?</p>
+<h4>И духовник и љекар</h4>
+<p>Из овога слиједи и једноставно правило. Жалост по Богу носи се духовнику — њој је мјесто у исповиједи и она се тамо претвара у оно за шта је дана. Туга свијета носи се заједници — њој треба раме, кољиво, четрдесет дана и стрпљива љубав. А туга трећег рода, она која траје и гаси живот — она се носи и духовнику <em>и</em> љекару, без одлагања и без стида. Депресија није мањак вјере, као што ни упала плућа није мањак вјере; и једно и друго Бог лијечи — између осталог, и преко људи које је за то школовао.</p>
+<p>А ако се у тами икада појави мисао да живота не треба да буде — то је знак за помоћ <em>одмах</em>, истог дана: своме љекару, дежурној служби, човјеку од повjерења. Таква мисао је симптом стања које се лијечи, а не истина о животу — ма како увјерљиво звучала изнутра.</p>
+<p class="vinjeta">❧ ❧ ❧</p>
+<p>Разликовање духова није хладна тријажа него дјело љубави: дати свакој тузи њено име значи дати јој и њен пут. Једну принијети Богу, другу преплакати међу својима, трећу лијечити свим што нам је дано — и кроз све три знати оно што је псалмопојац знао у најдубљем свом мраку: <em>зашто си жалосна, душо моја? Уздај се у Бога.</em></p>`
+},
+soon: {
+  cat: "Из писаонице",
+  title: "Текст је у припреми",
+  body: `<p>Овај текст се тренутно пише — пажљиво и без журбе, како тема и заслужује.</p>
+<p>Пријави се на мјесечно писмо при дну странице и јавићемо ти чим буде објављен.</p>
+<p class="vinjeta">❧ ❧ ❧</p>`
+}
+};
+
+const modal = document.getElementById('modal');
+const modalContent = document.getElementById('modalContent');
+const modalClose = document.getElementById('modalClose');
+
+function openArticle(key){
+  const a = ARTICLES[key]; if(!a) return;
+  modalContent.innerHTML = '<span class="art-cat">'+a.cat+'</span><h2>'+a.title+'</h2><div class="art-body">'+a.body+'</div>';
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  modal.scrollTop = 0;
+}
+function closeModal(){
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('[data-article]').forEach(card => {
+  card.addEventListener('click', e => { e.preventDefault(); openArticle(card.dataset.article); });
+});
+modalClose.addEventListener('click', closeModal);
+modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+</script>
+</body>
+</html>
